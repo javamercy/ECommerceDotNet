@@ -96,7 +96,7 @@ public class CartManager : ICartService
 
         if (cart == null) throw new Exception("Cart not found");
 
-        var existingCartItem = cart.CartItems.FirstOrDefault(c => c.Id == request.CartItemId);
+        var existingCartItem = cart.CartItems.FirstOrDefault(c => c.Id == request.ProductId);
 
         if (existingCartItem == null) throw new Exception("Cart item not found");
 

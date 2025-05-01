@@ -42,7 +42,7 @@ public class CartsController : ControllerBase
         return NoContent();
     }
 
-    [HttpPost("AddItemToCart")]
+    [HttpPost("AddCartItemToCart")]
     public async Task<IActionResult> AddItemToCart(AddItemToCartRequest request)
     {
         var response = await _cartService.AddItemToCartAsync(request);
@@ -50,8 +50,8 @@ public class CartsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteCartItemFromCart(DeleteCartItemFromCartRequest request)
+    [HttpDelete("DeleteCartItemFromCart")]
+    public async Task<IActionResult> DeleteCartItemFromCart([FromBody] DeleteCartItemFromCartRequest request)
     {
         var response = await _cartService.DeleteCartItemFromCartAsync(request);
 

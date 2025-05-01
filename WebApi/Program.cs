@@ -1,8 +1,6 @@
-using Business.Abstracts;
-using Business.Concretes;
+using Business;
 using DataAccess;
-using DataAccess.Abstracts;
-using DataAccess.Concretes;
+using WebApi.middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +8,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<ECommerceContext>();
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductManager>();
+builder.Services.AddDataAccessServices(builder.Configuration);
+builder.Services.AddBusinessServices();
 
 var app = builder.Build();
 
@@ -23,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwaggerUI(options => { options.SwaggerEndpoint("/openapi/v1.json", "My API V1"); });
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseStaticFiles();
 

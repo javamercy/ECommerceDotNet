@@ -1,8 +1,7 @@
 using Entities.Concretes;
 
-namespace DataAccess.Abstracts
+namespace DataAccess.Abstracts;
+
+public interface IProductRepository : IAsyncRepository<Product>
 {
-    public interface IProductRepository : IAsyncRepository<Product>
-    {
-    }
 }

@@ -1,15 +1,17 @@
 ﻿using System.Linq.Expressions;
+using DataAccess.Abstracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace DataAccess.Concretes;
 
-public class EFfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>
+public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>
     where TEntity : class, new()
     where TContext : DbContext, new()
 {
     protected readonly TContext Context;
 
-    public EFfRepositoryBase(TContext context)
+    public EfRepositoryBase(TContext context)
     {
         Context = context;
     }
@@ -35,24 +37,29 @@ public class EFfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>
         await Context.SaveChangesAsync();
     }
 
-    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
     {
-        return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        var queryable = Query();
+        if (include != null) queryable = include(queryable);
+
+        return await queryable.FirstOrDefaultAsync(predicate);
     }
 
-    public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null)
+    public IQueryable<TEntity> Query()
     {
-        return predicate == null
-            ? await Context.Set<TEntity>().ToListAsync()
-            : await Context.Set<TEntity>().Where(predicate).ToListAsync();
+        return Context.Set<TEntity>();
     }
-}
 
-public interface IAsyncRepository<TEntity>
-{
-    Task AddAsync(TEntity entity);
-    Task UpdateAsync(TEntity entity);
-    Task DeleteAsync(TEntity entity);
-    Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null);
-    Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
+    public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
+    {
+        var queryable = Query();
+
+        if (include != null) queryable = include(queryable);
+
+        if (predicate != null) queryable = queryable.Where(predicate);
+
+        return await queryable.ToListAsync();
+    }
 }

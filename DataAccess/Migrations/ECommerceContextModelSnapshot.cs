@@ -151,7 +151,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 1,
                             Description = "Apple's flagship iPhone with A17 Pro chip, titanium design, and 48MP camera",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "iPhone 15 Pro Max",
                             Price = 1199.99m,
                             Status = true,
@@ -161,7 +161,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 2,
                             Description = "Premium iPhone with A17 Pro chip, Action button, and titanium design",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "iPhone 15 Pro",
                             Price = 999.99m,
                             Status = true,
@@ -171,7 +171,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 3,
                             Description = "Latest standard iPhone with A16 Bionic chip and Dynamic Island",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "iPhone 15",
                             Price = 799.99m,
                             Status = true,
@@ -181,7 +181,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 4,
                             Description = "Previous generation premium iPhone with A16 Bionic chip and Dynamic Island",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "iPhone 14 Pro",
                             Price = 899.99m,
                             Status = true,
@@ -191,7 +191,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 5,
                             Description = "Compact iPhone with A15 Bionic chip and Touch ID",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "iPhone SE (2022)",
                             Price = 429.99m,
                             Status = true,
@@ -201,7 +201,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 6,
                             Description = "Samsung's flagship with Snapdragon 8 Gen 3, S Pen, and AI features",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "Samsung Galaxy S24 Ultra",
                             Price = 1299.99m,
                             Status = true,
@@ -211,7 +211,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 7,
                             Description = "Large display Galaxy with Snapdragon 8 Gen 3 and advanced camera system",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "Samsung Galaxy S24+",
                             Price = 999.99m,
                             Status = true,
@@ -221,7 +221,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 8,
                             Description = "Standard Galaxy S series with powerful performance and AI features",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "Samsung Galaxy S24",
                             Price = 799.99m,
                             Status = true,
@@ -231,7 +231,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 9,
                             Description = "Previous generation Ultra with Snapdragon 8 Gen 2 and 200MP camera",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "Samsung Galaxy S23 Ultra",
                             Price = 1099.99m,
                             Status = true,
@@ -241,7 +241,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 10,
                             Description = "Previous generation S series with excellent camera and performance",
-                            ImageUrl = "https://picsum.photos/200",
+                            ImageUrl = "1.jpg",
                             Name = "Samsung Galaxy S23",
                             Price = 699.99m,
                             Status = true,

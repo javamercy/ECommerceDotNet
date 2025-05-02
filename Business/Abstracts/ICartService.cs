@@ -1,3 +1,4 @@
+using Business.DTOs.Carts;
 using Business.DTOs.Carts.AddItemToCart;
 using Business.DTOs.Carts.DeleteCartItemFromCart;
 using Business.DTOs.Carts.GetByCustomerId;
@@ -10,7 +11,7 @@ public interface ICartService
     Task AddAsync(Cart cart);
     Task UpdateAsync(Cart cart);
 
-    Task<DeletedCartItemFromCartResponse> DeleteCartItemFromCartAsync(DeleteCartItemFromCartRequest request);
-    Task<AddItemToCartResponse> AddItemToCartAsync(AddItemToCartRequest request);
-    Task<GetByCustomerIdResponse> GetByCustomerIdAsync(GetByCustomerIdRequest request);
+    Task<CartResponse> DeleteCartItemFromCartAsync(DeleteCartItemFromCartRequest request);
+    Task<CartResponse> AddItemToCartAsync(AddItemToCartRequest request);
+    Task<CartResponse> GetByCustomerIdAsync(GetByCustomerIdRequest request);
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Business.Abstracts;
+using Business.DTOs.Carts;
 using Business.DTOs.Carts.AddItemToCart;
 using Business.DTOs.Carts.DeleteCartItemFromCart;
 using Business.DTOs.Carts.GetByCustomerId;
@@ -33,12 +34,48 @@ public class CartManager : ICartService
         return _cartRepository.UpdateAsync(cart);
     }
 
-    public async Task<AddItemToCartResponse> AddItemToCartAsync(AddItemToCartRequest request)
+    public async Task<CartResponse> GetByCustomerIdAsync(GetByCustomerIdRequest request)
+    {
+        var cart = await _cartRepository.GetAsync(
+            c => c.CustomerId == request.CustomerId,
+            c => c.Include(c => c.CartItems).ThenInclude(ci => ci.Product));
+
+        if (cart == null)
+            return new CartResponse
+            {
+                CustomerId = request.CustomerId,
+                CartItems = []
+            };
+
+        return _mapper.Map<CartResponse>(cart);
+    }
+
+    public async Task<CartResponse> DeleteCartItemFromCartAsync(
+        DeleteCartItemFromCartRequest request)
+    {
+        var cart = await _cartRepository.GetAsync(c => c.Id == request.CartId,
+            c => c.Include(c => c.CartItems).ThenInclude(c => c.Product));
+
+        if (cart == null) throw new Exception("Cart not found");
+
+        var existingCartItem = cart.CartItems.FirstOrDefault(c => c.ProductId == request.ProductId);
+
+        if (existingCartItem == null) throw new Exception("Cart item not found");
+
+        cart.CartItems.Remove(existingCartItem);
+
+        await _cartRepository.UpdateAsync(cart);
+
+        return _mapper.Map<CartResponse>(cart);
+    }
+
+    public async Task<CartResponse> AddItemToCartAsync(AddItemToCartRequest request)
     {
         var product = await _productService.GetAsync(p => p.Id == request.ProductId);
         if (product == null) throw new Exception("Product not found");
 
-        var cart = await _cartRepository.GetAsync(c => c.CustomerId == request.CustomerId);
+        var cart = await _cartRepository.GetAsync(c => c.CustomerId == request.CustomerId,
+            c => c.Include(c => c.CartItems).ThenInclude(c => c.Product));
         if (cart == null)
         {
             cart = new Cart
@@ -69,41 +106,6 @@ public class CartManager : ICartService
             await _cartRepository.UpdateAsync(cart);
         }
 
-        return _mapper.Map<AddItemToCartResponse>(cart);
-    }
-
-    public async Task<GetByCustomerIdResponse> GetByCustomerIdAsync(GetByCustomerIdRequest request)
-    {
-        var cart = await _cartRepository.GetAsync(
-            c => c.CustomerId == request.CustomerId,
-            c => c.Include(c => c.CartItems).ThenInclude(ci => ci.Product));
-
-        if (cart == null)
-            return new GetByCustomerIdResponse
-            {
-                CustomerId = request.CustomerId,
-                CartItems = []
-            };
-
-        return _mapper.Map<GetByCustomerIdResponse>(cart);
-    }
-
-    public async Task<DeletedCartItemFromCartResponse> DeleteCartItemFromCartAsync(
-        DeleteCartItemFromCartRequest request)
-    {
-        var cart = await _cartRepository.GetAsync(c => c.Id == request.CartId,
-            c => c.Include(c => c.CartItems));
-
-        if (cart == null) throw new Exception("Cart not found");
-
-        var existingCartItem = cart.CartItems.FirstOrDefault(c => c.Id == request.ProductId);
-
-        if (existingCartItem == null) throw new Exception("Cart item not found");
-
-        cart.CartItems.Remove(existingCartItem);
-
-        await _cartRepository.UpdateAsync(cart);
-
-        return _mapper.Map<DeletedCartItemFromCartResponse>(cart);
+        return _mapper.Map<CartResponse>(cart);
     }
 }

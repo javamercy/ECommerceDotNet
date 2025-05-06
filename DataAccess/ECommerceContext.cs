@@ -1,12 +1,13 @@
 ﻿using Entities.Concretes;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccess;
 
-public class ECommerceContext : DbContext
+public class ECommerceContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
-    public ECommerceContext(DbContextOptions<ECommerceContext> options, IConfiguration configuration)
+    public ECommerceContext(IdentityDbContext options, IConfiguration configuration)
     {
         Configuration = configuration;
     }
@@ -16,9 +17,7 @@ public class ECommerceContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
-
     public DbSet<Cart> Carts { get; set; }
-
     public DbSet<CartItem> CartItems { get; set; }
     public IConfiguration Configuration { get; set; }
 

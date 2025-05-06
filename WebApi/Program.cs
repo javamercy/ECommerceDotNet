@@ -1,5 +1,6 @@
 using Business;
 using DataAccess;
+using Entities.Concretes;
 using WebApi.middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDataAccessServices(builder.Configuration);
 builder.Services.AddBusinessServices();
+
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ECommerceContext>();
 
 var app = builder.Build();
 
@@ -37,5 +40,7 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
+await app.Initialize();
 
 app.Run();

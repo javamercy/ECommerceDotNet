@@ -14,18 +14,18 @@ public static class SeedDatabase
         var roleManager = app.ApplicationServices.CreateScope().ServiceProvider
             .GetRequiredService<RoleManager<AppRole>>();
 
-        if (roleManager.Roles.Any())
+        if (!roleManager.Roles.Any())
         {
             var adminRole = new AppRole { Name = "Admin" };
-            var customerRole = new AppRole { Name = "Customer" }; Microsoft.Data.Sqlite.SqliteException: 'SQLite Error 1: 'no such table: AspNetRoles'.'
+            var customerRole = new AppRole { Name = "Customer" };
 
             await roleManager.CreateAsync(adminRole);
             await roleManager.CreateAsync(customerRole);
         }
 
-        if (userManager.Users.Any())
+        if (!userManager.Users.Any())
         {
-            var customer = new AppUser()
+            var customer = new AppUser
             {
                 FirstName = "Emrecan",
                 LastName = "Kurşun",
@@ -33,7 +33,7 @@ public static class SeedDatabase
                 Email = "emre.kursun@gmail.com"
             };
 
-            var admin = new AppUser()
+            var admin = new AppUser
             {
                 FirstName = "Admin",
                 LastName = "Admin",
@@ -42,16 +42,10 @@ public static class SeedDatabase
             };
 
             var customerResult = await userManager.CreateAsync(customer, "Password123!");
-            if (customerResult.Succeeded)
-            {
-                await userManager.AddToRoleAsync(customer, "Customer");
-            }
+            if (customerResult.Succeeded) await userManager.AddToRoleAsync(customer, "Customer");
 
             var adminResult = await userManager.CreateAsync(admin, "Password123!");
-            if (adminResult.Succeeded)
-            {
-                await userManager.AddToRoleAsync(admin, "Admin");
-            }
+            if (adminResult.Succeeded) await userManager.AddToRoleAsync(admin, "Admin");
         }
     }
 }
